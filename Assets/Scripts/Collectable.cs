@@ -12,19 +12,17 @@ public class Collectable : MonoBehaviour
     FuelManager fuelManager;
     AudioManager audioManager;
 
-    public TextMeshProUGUI partsCounterText;
-
     public GameObject winScreen, runeVfx;
+
+    public Fuel fuel { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        winScreen.SetActive(false);
+        fuel = GameObject.FindObjectOfType<Fuel>();
 
         fuelManager = GameObject.FindObjectOfType<FuelManager>();
         audioManager = GameObject.FindObjectOfType<AudioManager>();
-
-        partsCounterText.text = "Parts Collected : /16" ;
     }
 
     // Update is called once per frame
@@ -49,12 +47,10 @@ public class Collectable : MonoBehaviour
             collectionCounter++;
             ScoreManager.score += 20;
             Debug.Log("Collection counter : " + collectionCounter);
-            partsCounterText.text = "Parts Collected : " + collectionCounter.ToString() + "/16";
-            
-            if (fuelManager.fuelAmount < 1)
-            {
-                fuelManager.fuelAmount += 0.1f;
-            }
+
+            fuel.GetFuel(1);
+            fuel.GetStars(1);
+            fuel.CurrentStars = collectionCounter;
 
             audioManager.coinAudio.Play();
 

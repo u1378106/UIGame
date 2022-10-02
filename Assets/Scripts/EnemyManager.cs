@@ -33,7 +33,7 @@ public class EnemyManager : MonoBehaviour
         if(other.gameObject.tag.Equals("Player"))
         {
             Debug.Log("Game OVer !!!!");
-            fuelManager.gameOver.SetActive(true);
+            //fuelManager.gameOver.SetActive(true);
             audioManager.enemyDestroy.Play();
         }
     }

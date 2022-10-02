@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Observer.Pattern;
 
 public class _SpaceshipController : MonoBehaviour
 {
     float speed;
     public int cruiseSpeed;
-    float deltaSpeed;//(speed - cruisespeed)
+    float deltaSpeed;
     public int minSpeed;
     public int maxSpeed;
     float accel, decel;
@@ -26,22 +27,20 @@ public class _SpaceshipController : MonoBehaviour
 
     public GameObject warningText;
 
+    public Fuel fuel { get; private set; }
+
     void Start()
     {
         collectable = GameObject.FindObjectOfType<Collectable>();
-        fuelManager = GameObject.FindObjectOfType<FuelManager>();
+        fuel = GameObject.FindObjectOfType<Fuel>();
 
         speed = cruiseSpeed;
         height = this.transform.position.y;
         warningText.SetActive(false);
-
     }
 
     void FixedUpdate()
     {
-
-     
-
         shipRot = transform.GetChild(1).localEulerAngles; 
 
         if (shipRot.x > 180) shipRot.x -= 360;
@@ -50,13 +49,11 @@ public class _SpaceshipController : MonoBehaviour
 
         if(Input.GetKey(KeyCode.W))
         {
-            //speed = cruiseSpeed = 5;
             speed += accel * 0.8f * Time.fixedDeltaTime;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            //speed = cruiseSpeed = 5;
             speed -= accel * 0.1f * Time.fixedDeltaTime;
         }
 
@@ -71,9 +68,6 @@ public class _SpaceshipController : MonoBehaviour
         transform.GetChild(1).Rotate(angVel * Time.fixedDeltaTime);
 
         transform.GetChild(1).Rotate(-shipRot.normalized * .015f * (shipRot.sqrMagnitude + 500) * (1 + speed / maxSpeed) * Time.fixedDeltaTime);
-
-
-       
 
         deltaSpeed = speed - cruiseSpeed;
      
@@ -111,10 +105,8 @@ public class _SpaceshipController : MonoBehaviour
         }
 
             if (Input.GetKeyDown(KeyCode.C))
-        {
-            GameObject shoot = GameObject.Instantiate(projectile, this.transform);
-            shoot.GetComponent<Rigidbody>().AddForce(this.transform.forward * 400f);
-            fuelManager.fuelAmount -= 0.025f;
+        {        
+            FireProjectile();
         }
 
         height = this.transform.position.y;
@@ -132,5 +124,12 @@ public class _SpaceshipController : MonoBehaviour
                 this.GetComponentInChildren<Rigidbody>().isKinematic = false;
             }
         }
+    }
+
+    void FireProjectile()
+    {
+        GameObject shoot = GameObject.Instantiate(projectile, this.transform);
+        shoot.GetComponent<Rigidbody>().AddForce(this.transform.forward * 400f);
+        fuel.DrainFuel(0.025f);
     }
 }

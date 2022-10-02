@@ -7,9 +7,11 @@ using System;
     {
         public event Action<float> Drained = delegate { };
         public event Action<float> Gained = delegate { };
+        public event Action<float> Scored = delegate { };
         public event Action Killed = delegate { };
+        public event Action Win = delegate { };
 
-        [SerializeField] float _startingFuel = 1;
+    [SerializeField] float _startingFuel = 1;
         public float StartingFuel => _startingFuel;
 
         [SerializeField] float _maxFuel = 1;
@@ -20,6 +22,9 @@ using System;
 
         [SerializeField] float _maxStars = 16;
         public float MaxStars => _maxStars;
+
+        [SerializeField] float _startingScore = 0;
+        public float StartingScore => _startingScore;
 
     float _currentFuel;
         public float CurrentFuel
@@ -49,10 +54,21 @@ using System;
         }
     }
 
-        private void Awake()
+    float _currentScore;
+    public float CurrentScore
+    {
+        get => _currentScore;
+        set
+        {
+            _currentScore = value;
+        }
+    }
+
+    private void Awake()
         {
             CurrentFuel = _startingFuel;
             CurrentStars = _startingStars;
+            CurrentScore = _startingScore;
         }
 
         public void GetFuel(float amount)
@@ -78,11 +94,23 @@ using System;
             Gained.Invoke(amount);
         }
 
-    public void Kill()
+        public void GetScore(float amount)
         {
-            Killed.Invoke();
+            CurrentScore += amount;
+            Scored.Invoke(amount);
+        }
+
+        public void Kill()
+        {
+          Killed.Invoke();
+          gameObject.SetActive(false);
+        }
+
+        public void Won()
+        {
+            Win.Invoke();
             gameObject.SetActive(false);
         }
-    }
+}
 
 

@@ -21,9 +21,6 @@ using TMPro;
         [SerializeField]
         TextMeshProUGUI score;
 
-    [SerializeField] 
-        float _textPopupDuration = 1;
-
         Fuel _observedFuel = null;
         Coroutine _popupRoutine = null;
 
@@ -42,29 +39,31 @@ using TMPro;
         _observedFuel = newHealthToObserver;
 
         _observedFuel.Gained += OnObservedFuelGained;
-        _observedFuel.Drained += OnObservedFuelDrained;
+        _observedFuel.Scored += OnObservedScored;
         _observedFuel.Killed += OnObservedFuelEmpty;
         }
 
         public void StopObservingHealth()
         {
-        _observedFuel.Drained -= OnObservedFuelDrained;
         _observedFuel.Killed -= OnObservedFuelEmpty;
 
         _observedFuel = null;
         }
 
-        void OnObservedFuelDrained(float drained)
-        {
-            
-        }
-
         void OnObservedFuelGained(float gained)
         {
             fuelCollected.text = "Parts collected : " + _observedFuel.CurrentStars + "/16";
+
+        if (_observedFuel.CurrentStars == _observedFuel.MaxStars)
+            winScreen.gameObject.SetActive(true);
         }
 
-    IEnumerator ImagePopup()
+        void OnObservedScored(float scored)
+        {
+        score.text = "Score : " + _observedFuel.CurrentScore;
+        }
+
+    IEnumerator LoseImagePopup()
         {
             yield return null;
             gameOverScreen.gameObject.SetActive(true);
@@ -74,7 +73,7 @@ using TMPro;
         {
             if (_popupRoutine != null)
                 StopCoroutine(_popupRoutine);
-            _popupRoutine = StartCoroutine(ImagePopup());
+            _popupRoutine = StartCoroutine(LoseImagePopup());
             StopObservingHealth();
         }
     }

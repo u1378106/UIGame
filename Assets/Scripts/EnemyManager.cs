@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    FuelManager fuelManager;
-
     public bool isRotateAround;
 
     public GameObject star3, destroyPrefab, mainCam;
 
     AudioManager audioManager;
 
+    public Fuel fuel { get; private set; }
+
     private void Start()
     {
-        fuelManager = GameObject.FindObjectOfType<FuelManager>();
+        fuel = GameObject.FindObjectOfType<Fuel>();
         audioManager = GameObject.FindObjectOfType<AudioManager>();
     }
 
@@ -22,7 +22,7 @@ public class EnemyManager : MonoBehaviour
     {
         if(other.gameObject.tag.Equals("Projectile"))
         {
-            ScoreManager.score += 10;          
+            fuel.GetScore(10);
             audioManager.enemyDestroy.Play();
             Instantiate(destroyPrefab, this.transform.localPosition, Quaternion.identity);
             mainCam.GetComponent<CameraShake>().enabled = true;
@@ -32,8 +32,7 @@ public class EnemyManager : MonoBehaviour
 
         if(other.gameObject.tag.Equals("Player"))
         {
-            Debug.Log("Game OVer !!!!");
-            //fuelManager.gameOver.SetActive(true);
+            Debug.Log("Game Over !!!!");
             audioManager.enemyDestroy.Play();
         }
     }

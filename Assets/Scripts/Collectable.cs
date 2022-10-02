@@ -45,11 +45,12 @@ public class Collectable : MonoBehaviour
         if (other.gameObject.tag.Equals("collectable"))
         {
             collectionCounter++;
-            ScoreManager.score += 20;
             Debug.Log("Collection counter : " + collectionCounter);
 
             fuel.GetFuel(1);
             fuel.GetStars(1);
+            fuel.GetScore(20);
+
             fuel.CurrentStars = collectionCounter;
 
             audioManager.coinAudio.Play();
@@ -58,9 +59,6 @@ public class Collectable : MonoBehaviour
             this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         }
-
-        if (collectionCounter == 16)
-            winScreen.SetActive(true);
     }
 
     IEnumerator HandleCheckpointCollider(GameObject other)

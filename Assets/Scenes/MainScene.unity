@@ -888,10 +888,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fuelToObserve: {fileID: 671850666}
-  _textPopupUI: {fileID: 0}
   gameOverScreen: {fileID: 217798219}
   winScreen: {fileID: 1917162693}
-  _textPopupDuration: 1
+  fuelCollected: {fileID: 1847017469}
+  score: {fileID: 1324036423}
 --- !u!1001 &246751971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2855,6 +2855,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startingFuel: 1
   _maxFuel: 1
+  _startingStars: 0
+  _maxStars: 16
+  _startingScore: 0
 --- !u!1 &675929445
 GameObject:
   m_ObjectHideFlags: 0
@@ -6222,7 +6225,6 @@ GameObject:
   - component: {fileID: 1324036422}
   - component: {fileID: 1324036424}
   - component: {fileID: 1324036423}
-  - component: {fileID: 1324036425}
   m_Layer: 5
   m_Name: ScoreCounter
   m_TagString: Untagged
@@ -6347,19 +6349,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324036421}
   m_CullTransparentMesh: 1
---- !u!114 &1324036425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324036421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fa2e4fe00d6bb046aaf1336b63c0c9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 1324036423}
 --- !u!1 &1325464821
 GameObject:
   m_ObjectHideFlags: 0
@@ -8772,13 +8761,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1846752370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c48f552a0b79fc946b9894b74a29eb72, type: 3}
+  m_Script: {fileID: 11500000, guid: 880179c2f50a7e3468bfe6f407755904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   coinAudio: {fileID: 1919025065}
   checkpointAudio: {fileID: 1725139551}
   enemyDestroy: {fileID: 1596067799}
   bgSound: {fileID: 1793570230}
+  PlayMouseHoverUIAudio: {fileID: 0}
+  PlayMouseClickUIAudio: {fileID: 0}
 --- !u!1 &1847017467
 GameObject:
   m_ObjectHideFlags: 0

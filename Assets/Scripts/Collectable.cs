@@ -47,7 +47,7 @@ public class Collectable : MonoBehaviour
             collectionCounter++;
             Debug.Log("Collection counter : " + collectionCounter);
 
-            fuel.GetFuel(1);
+            fuel.GetFuel(0.25f);
             fuel.GetStars(1);
             fuel.GetScore(20);
 

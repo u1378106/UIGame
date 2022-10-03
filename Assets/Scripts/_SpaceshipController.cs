@@ -11,7 +11,7 @@ public class _SpaceshipController : MonoBehaviour
     public int minSpeed;
     public int maxSpeed;
     float accel, decel;
-    public GameObject projectile;
+    public GameObject projectile, propulsionEffect;
 
     Vector3 angVel;
     Vector3 shipRot;
@@ -37,6 +37,8 @@ public class _SpaceshipController : MonoBehaviour
         speed = cruiseSpeed;
         height = this.transform.position.y;
         warningText.SetActive(false);
+
+        propulsionEffect.SetActive(false);
     }
 
     void FixedUpdate()
@@ -50,14 +52,20 @@ public class _SpaceshipController : MonoBehaviour
         if(Input.GetKey(KeyCode.W))
         {
             speed += accel * 0.8f * Time.fixedDeltaTime;
+            propulsionEffect.SetActive(true);
+        }
+        else if (Input.GetKeyUp(KeyCode.W))
+        {
+            propulsionEffect.SetActive(false);
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             speed -= accel * 0.1f * Time.fixedDeltaTime;
+            propulsionEffect.SetActive(true);
         }
 
-        
+
         float turn = Input.GetAxis("Horizontal") * Mathf.Abs(Input.GetAxis("Horizontal")) * sensitivity * Time.fixedDeltaTime;
         angVel.y += turn * .5f;
        
